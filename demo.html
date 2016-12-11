@@ -15,7 +15,13 @@
 
 <body>
   Size: <input type='text' name='size' value='50' />
-  Level: <input type='text' name='level' value='10' />
+  Height:
+  <input
+    type="range"
+    name="heightRangeInput"
+    min="1" max="11" value='10'
+    onchange="updateRangeText(this.value, 'heightRangeInput')"
+  ><span id='heightRangeInput'>10</span>
   Revert: <input type='checkbox' name='revert' />
   <input type='button' onClick='generate()' value='generate' />
   <br />
@@ -24,6 +30,7 @@
   <canvas id="heightmapBlackAndWhite" width="500" height="500"></canvas>
   <script src="heightmap.js"></script>
   <script>
+    const updateRangeText = function (val, id) { $('#' + id).html(val) }
     const colors = [
       '#0000FF',
       '#4A86E8',
@@ -38,10 +45,10 @@
       '#783F04'
     ].reverse()
     const generate = function () {
-      const squareSize = parseInt($('input[name=size]').val())
-      const level = parseInt($('input[name=level]').val())
+      const size = parseInt($('input[name=size]').val())
+      const height = parseInt($('input[name=heightRangeInput]').val())
       const revert = $('input[name=revert]').is(':checked')
-      const noise = generateNoise(squareSize, level, revert, 10)
+      const noise = generateNoise(size, height, revert, 10)
       // COLOR CANVAS
       const canvasColor = document.getElementById('heightmapColor')
       const contextColor = canvasColor.getContext('2d')
@@ -63,7 +70,6 @@
           if (index < 0) index = 0
           contextBlackAndWhite.fillStyle = colors[index]
           contextBlackAndWhite.fillRect(x, y, 1, 1)
-
         }
       }
     }
