@@ -1,8 +1,10 @@
 # Heightmap-generator
 
 Simple implementation of heightmap generation for video game terrain rendering.
+[Demo here](https://clemdelp.github.io/heightmap-generator/demo.html)
 
 ![alt tag](demo.gif)
+
 
 # Installation
 
