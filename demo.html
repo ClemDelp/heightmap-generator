@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Heightmap generator</title>
+  <meta name="description" content="Heightmap generator">
+  <meta name="author" content="clemDelp">
+  <link rel="stylesheet" href="demo.css?v=1.0">
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+</head>
+
+<body>
+  Size: <input type='text' name='size' value='50' />
+  Level: <input type='text' name='level' value='10' />
+  Revert: <input type='checkbox' name='revert' />
+  <input type='button' onClick='generate()' value='generate' />
+  <br>
+  <canvas id="heightmap" width="800" height="800"></canvas>
+  <script src="heightmap.js"></script>
+  <script>
+    const generate = function () {
+      const squareSize = parseInt($('input[name=size]').val())
+      const level = parseInt($('input[name=level]').val())
+      const revert = $('input[name=revert]').is(':checked')
+      const noise = generateNoise(squareSize, level, revert, 10)
+      const canvas = document.getElementById('heightmap')
+      const context = canvas.getContext('2d')
+      context.clearRect(0, 0, canvas.width, canvas.height)
+      for(x = 0; x < noise.length; x++) {
+        for(y = 0; y < noise[x].length; y++) {
+          var color = Math.round((255 * noise[x][y]))
+          context.fillStyle = "rgb(" + color + ", " + color + ", " + color + ")"
+          context.fillRect(x, y, 1, 1)
+        }
+      }
+    }
+    generate()
+  </script>
+</body>
+</html>
