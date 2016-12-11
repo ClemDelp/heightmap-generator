@@ -17,7 +17,7 @@ function interpolate(points, squareSize) {
   var noiseArr = new Array()
   var x = 0;
   var y = 0;
-  var perc = squareSize
+  var perc = parseInt(squareSize)
   var size = perc*10
   for(i = 0; i < size; i++) {
     if(i != 0 && i % perc == 0) x++
@@ -39,8 +39,10 @@ function interpolate(points, squareSize) {
 }
 
 function flatten(points, level, revert, valueDivisor) {
+  var valueDivisor = parseInt(valueDivisor)
+  var level = parseInt(level)
   var maxVal = 1
-  var step = maxVal / level // 0.1
+  var step = maxVal / parseInt(level) // ref = 0.1
   var noiseArr = new Array()
   for(i = 0; i < points.length; i++) {
     noiseArr[i] = new Array()

@@ -18,23 +18,52 @@
   Level: <input type='text' name='level' value='10' />
   Revert: <input type='checkbox' name='revert' />
   <input type='button' onClick='generate()' value='generate' />
-  <br>
-  <canvas id="heightmap" width="800" height="800"></canvas>
+  <br />
+  <br />
+  <canvas id="heightmapColor" width="500" height="500"></canvas>
+  <canvas id="heightmapBlackAndWhite" width="500" height="500"></canvas>
   <script src="heightmap.js"></script>
   <script>
+    const colors = [
+      '#0000FF',
+      '#4A86E8',
+      '#C9DAF8',
+      '#CFE2F3',
+      '#FCE5CD',
+      '#F9CB9C',
+      '#F6B26B',
+      '#6AA84F',
+      '#38761D',
+      '#B45F06',
+      '#783F04'
+    ].reverse()
     const generate = function () {
       const squareSize = parseInt($('input[name=size]').val())
       const level = parseInt($('input[name=level]').val())
       const revert = $('input[name=revert]').is(':checked')
       const noise = generateNoise(squareSize, level, revert, 10)
-      const canvas = document.getElementById('heightmap')
-      const context = canvas.getContext('2d')
-      context.clearRect(0, 0, canvas.width, canvas.height)
+      // COLOR CANVAS
+      const canvasColor = document.getElementById('heightmapColor')
+      const contextColor = canvasColor.getContext('2d')
+      contextColor.clearRect(0, 0, canvasColor.width, canvasColor.height)
+      // BlackAndWhite CANVAS
+      const canvasBlackAndWhite = document.getElementById('heightmapBlackAndWhite')
+      const contextBlackAndWhite = canvasBlackAndWhite.getContext('2d')
+      contextBlackAndWhite.clearRect(0, 0, canvasBlackAndWhite.width, canvasBlackAndWhite.height)
+      // FILL CANVAS
       for(x = 0; x < noise.length; x++) {
         for(y = 0; y < noise[x].length; y++) {
-          var color = Math.round((255 * noise[x][y]))
-          context.fillStyle = "rgb(" + color + ", " + color + ", " + color + ")"
-          context.fillRect(x, y, 1, 1)
+          // COLOR
+          var val = noise[x][y]
+          var color = Math.round((255 * val))
+          contextColor.fillStyle = "rgb(" + color + ", " + color + ", " + color + ")"
+          contextColor.fillRect(x, y, 1, 1)
+          // BlackAndWhite
+          var index = Math.round(val * 10) - 1
+          if (index < 0) index = 0
+          contextBlackAndWhite.fillStyle = colors[index]
+          contextBlackAndWhite.fillRect(x, y, 1, 1)
+
         }
       }
     }
