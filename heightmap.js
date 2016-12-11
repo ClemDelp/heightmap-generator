@@ -1,4 +1,4 @@
-export function generateNoise(squareSize, level, revert) {
+const generateNoise = function (squareSize, level, revert) {
     var noiseArr = new Array();
     for(i = 0; i <= 5; i++)
     {
@@ -79,3 +79,5 @@ function flatten(points, level, revert) {
     }
     return(noiseArr);
 }
+
+module.exports = generateNoise;
