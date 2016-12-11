@@ -1,5 +1,5 @@
 
-function generateNoise(squareSize = 50, level = 10, revert = false, valueDivisor = 10) {
+function generateNoise(squareSize, level, revert, valueDivisor) {
   var noiseArr = new Array()
   var nbre = 10
   for(i = 0; i <= nbre; i++) {
@@ -18,7 +18,7 @@ function interpolate(points, squareSize) {
   var x = 0;
   var y = 0;
   var perc = parseInt(squareSize)
-  var size = perc*10
+  var size = perc * 10
   for(i = 0; i < size; i++) {
     if(i != 0 && i % perc == 0) x++
     noiseArr[i] = new Array();
@@ -48,7 +48,7 @@ function flatten(points, level, revert, valueDivisor) {
     noiseArr[i] = new Array()
     for(j = 0; j < points[i].length; j++) {
       for (k = 0; k <= level; k++) {
-        var val = Math.round(step * k * 10) / valueDivisor
+        var val = Math.round(step * k * 10) / 10
         if (val === maxVal) {
           if (revert) noiseArr[i][j] = maxVal / valueDivisor
           else noiseArr[i][j] = level / valueDivisor
@@ -61,5 +61,7 @@ function flatten(points, level, revert, valueDivisor) {
       }
     }
   }
-  return(noiseArr)
+  return noiseArr
 }
+
+module.exports = generateNoise
